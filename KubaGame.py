@@ -14,6 +14,7 @@ class KubaGame:
                         ['B','B','X','X','X','W','W']  ]
         self._last_matrix = None
         self._player_turn = None
+        self._winner = None
         self._players = {playerA_tuple[0]: Player(playerA_tuple[0], playerA_tuple[1], playerB_tuple[0]),
                          playerB_tuple[0]: Player(playerB_tuple[0], playerB_tuple[1], playerA_tuple[0])}
 
@@ -22,6 +23,12 @@ class KubaGame:
 
     def set_current_turn(self, playername):
         self._player_turn = playername
+
+    def get_winner(self):
+        return self._winner
+
+    def set_winner(self, winner):
+        self._winner = winner
 
     def get_matrix(self):
         return self._matrix
@@ -71,10 +78,28 @@ class KubaGame:
             self.set_last_matrix(deepcopy(self.get_matrix()))
             self.set_matrix(self.make_move_helper(playername, coordinates, direction, self.get_matrix()))
             self.set_current_turn(self.get_player(playername).get_next_player())
-            #check win
+
+            if self.check_win(playername) is True:
+                self.set_winner(playername)
             return True
         else:
             return self.check_move_legality(playername, coordinates, direction)
+
+    def check_win(self, playername):
+        opponent = self.get_player(playername).get_next_player()
+        opposing_color= self.get_player(opponent).get_color()
+        color_count=0
+
+        if self.get_player(playername).get_captured()==7:
+            return True
+        for num in range(0,7):
+            for index in range(0,7):
+                if matrix[num][index]==opposing_color:
+                    color_count+=1
+        if color_count==0:
+            return True
+        else:
+            return False
 
     def make_move_helper(self, playername, coordinates, direction, matrix):
         """Helper function to make_move and updates the board. Assumes that the move is already legal.
