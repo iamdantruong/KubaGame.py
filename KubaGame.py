@@ -86,29 +86,29 @@ class KubaGame:
         column_list = []
 
         if direction == 'L':
-            for index in range(index, 7):
-                if matrix[row][index] == 'X':
-                    index_list.append(index)
+            for num in range(0, index):
+                if matrix[row][num] == 'X':
+                    index_list.append(num)
             if len(index_list)!=0:
-                matrix[row].pop(index_list[0])      #pops first instance of 'X' if it exists
-            matrix[row].insert(column,'X')          #inserts at position
+                matrix[row].pop(index_list[-1])
+            matrix[row].insert(column+1,'X')          #inserts at position
             if len(matrix[row])==8:             #if no blank space, then position 7 is a marble and taken off board
-                if matrix[row][7] =='R':
+                if matrix[row][0] =='R':
                     self.get_player(playername).capture()   #increments score by 1
-                matrix[row].pop(-1)
+                matrix[row].pop(0)
 
         if direction == 'R':
-            for index in range(0,index):
-                if matrix[row][index] == 'X':
+            for num in range(index, 7):
+                if matrix[row][num] == 'X':
                     index_list.append(index)
-                    index-=1
+                    #index+=1
             if len(index_list)!= 0:
-                matrix[row].pop(index_list[-1])
+                matrix[row].pop(index_list[0])
             matrix[row].insert(column,'X')
             if len(matrix[row]) == 8:
-                if matrix[row][0] == 'R':
+                if matrix[row][7] == 'R':
                     self.get_player(playername).capture()
-                matrix[row].pop(0)
+                matrix[row].pop(7)
 
         if direction == 'B':
             for num in range(0,7):
@@ -253,10 +253,13 @@ def main():
     print(game.make_move('PlayerB', (0, 6), 'B'))
     game.make_move('PlayerA',(4,5),'F')
     game.make_move('PlayerB', (1, 6), 'B')
+    print("marble count: ", game.get_marble_count())
     game.make_move('PlayerA', (3, 5), 'F')
     print(game.get_player('PlayerA').get_captured())
     game.print_matrix()
     print("marble count: ", game.get_marble_count())
+    game.make_move('PlayerB',(2,6),'L')
+    game.print_matrix()
 
 
 
