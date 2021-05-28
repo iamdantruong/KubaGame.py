@@ -88,6 +88,7 @@ class KubaGame:
     def check_win(self, playername):
         opponent = self.get_player(playername).get_next_player()
         opposing_color= self.get_player(opponent).get_color()
+        matrix=self.get_matrix()
         color_count=0
 
         if self.get_player(playername).get_captured()==7:
