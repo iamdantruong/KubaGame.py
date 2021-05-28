@@ -169,7 +169,7 @@ class KubaGame:
         temp = deepcopy(self.get_matrix())
         new_matrix= self.make_move_helper(playername, coordinates, direction, temp)
         if new_matrix==old_matrix:
-            return "This is an invalid move."
+            return False
 
         else:
             return True
@@ -178,13 +178,13 @@ class KubaGame:
         if self.get_current_turn() == playername or self.get_current_turn() is None:
             return True
         else:
-            return "It is not your turn."
+            return False
 
     def check_coordinates(self, playername, coordinates):
         if self.get_marble(coordinates) == self.get_player(playername).get_color():
             return True
         else:
-            return "That is not your marble."
+            return False
 
     def check_direction(self, coordinates, direction):
         row = coordinates[0]
@@ -197,7 +197,7 @@ class KubaGame:
             elif matrix[row][column+1] == 'X':
                 return True
             else:
-                return "You can't move from here."
+                return False
 
         if direction == 'R':
             if column-1 < 0:
@@ -205,7 +205,7 @@ class KubaGame:
             elif matrix[row][column-1] == 'X':
                 return True
             else:
-                return "You can't move from here."
+                return False
 
         if direction == 'F':
             if row+1 == len(matrix[row]):
@@ -213,7 +213,7 @@ class KubaGame:
             elif matrix[row+1][column] == 'X':
                 return True
             else:
-                return "You can't move from here."
+                return False
 
         if direction == 'B':
             if row-1 < 0:
@@ -221,7 +221,7 @@ class KubaGame:
             elif matrix[row-1][column] == 'X':
                 return True
             else:
-                return "You can't move from here."
+                return False
 
 class Player:
     def __init__(self, player, color, next_player):
@@ -249,7 +249,16 @@ def main():
     print(game.make_move('PlayerA', (6, 5) , 'F'))
     print(game.make_move('PlayerB', (0,5), 'B'))
     print(game.make_move('PlayerA', (5, 5), 'F'))
-    print(game.make_move('PlayerB', (0, 5), 'B'))
+    game.print_matrix()
+    print(game.make_move('PlayerB', (0, 6), 'B'))
+    game.make_move('PlayerA',(4,5),'F')
+    game.make_move('PlayerB', (1, 6), 'B')
+    game.make_move('PlayerA', (3, 5), 'F')
+    print(game.get_player('PlayerA').get_captured())
+    game.print_matrix()
+    print("marble count: ", game.get_marble_count())
+
+
 
 
 if __name__== '__main__':
