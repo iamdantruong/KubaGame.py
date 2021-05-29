@@ -151,7 +151,7 @@ class KubaGame:
             if len(column_list) == 8:
                 if column_list[-1]=='R':
                     self.get_player(playername).capture()
-                    column_list.pop(-1)
+                column_list.pop(-1)
 
             for num in range (0,7):
                 matrix[num][column] = column_list[num]
@@ -289,6 +289,7 @@ def main():
     print('space')
     print(game.make_move('PlayerB',(5,0),'R'))
     game.print_matrix()
+    print(game.get_player('PlayerA').get_captured())
 
 
 
