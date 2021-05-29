@@ -126,8 +126,7 @@ class KubaGame:
         if direction == 'R':
             for num in range(index, 7):
                 if matrix[row][num] == 'X':
-                    index_list.append(index)
-                    #index+=1
+                    index_list.append(num)
             if len(index_list)!= 0:
                 matrix[row].pop(index_list[0])
             matrix[row].insert(column,'X')
@@ -285,6 +284,10 @@ def main():
     game.print_matrix()
     print("marble count: ", game.get_marble_count())
     game.make_move('PlayerB',(2,6),'L')
+    game.print_matrix()
+    game.make_move('PlayerA',(1,0),'R')
+    print('space')
+    print(game.make_move('PlayerB',(5,0),'R'))
     game.print_matrix()
 
 
