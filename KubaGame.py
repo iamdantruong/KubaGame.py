@@ -115,6 +115,7 @@ class KubaGame:
         """
         opponent = self.get_player(playername).get_next_player()
         opposing_color= self.get_player(opponent).get_color()
+        opponent_coordinates = []
         matrix=self.get_matrix()
         color_count=0
 
@@ -126,6 +127,11 @@ class KubaGame:
                     color_count+=1
         if color_count==0:
             return True
+
+        for num1 in range (0,7):
+            for num2 in range (0,7):
+                if matrix[num1][num2]== opposing_color:
+                    opponent_coordinates.append((num1,num2))
         else:
             return False
 
@@ -231,8 +237,21 @@ class KubaGame:
         if new_matrix==old_matrix:
             return False
 
+        if self.player_marble_count(playername, old_matrix) != self.player_marble_count(playername, new_matrix):
+            return False
         else:
             return True
+
+    def player_marble_count(self, playerName, matrix):
+        if matrix is None:
+            return 8
+        color = self.get_player(playerName).get_color()
+        count = 0
+        for num1 in range (0,7):
+            for num2 in range (0,7):
+                if matrix[num1][num2] == color:
+                    count+=1
+        return count
 
     def check_player_turn(self, playername):
         """Returns True if it is that player's turn and False otherwise."""
@@ -322,18 +341,23 @@ def main():
     print(game.make_move('PlayerA', (5, 5), 'F'))
     game.print_matrix()
     print(game.make_move('PlayerB', (0, 6), 'B'))
-    game.make_move('PlayerA',(4,5),'F')
-    game.make_move('PlayerB', (1, 6), 'B')
+    print("marble count: ", game.get_marble_count())
+    print(game.make_move('PlayerA',(4,5),'F'))
+    print("marble count: ", game.get_marble_count())
+    print(game.make_move('PlayerB', (1, 6), 'B'))
     print("marble count: ", game.get_marble_count())
     game.make_move('PlayerA', (3, 5), 'F')
     print(game.get_player('PlayerA').get_captured())
     game.print_matrix()
     print("marble count: ", game.get_marble_count())
     game.make_move('PlayerB',(2,6),'L')
+    print("marble count: ", game.get_marble_count())
     game.print_matrix()
     game.make_move('PlayerA',(1,0),'R')
+    game.print_matrix()
     print('space')
     print(game.make_move('PlayerB',(5,0),'R'))
+    print("marble count: ", game.get_marble_count())
     game.print_matrix()
     print(game.get_player('PlayerA').get_captured())
     game.make_move('PlayerA',(0,1),'B')
@@ -344,6 +368,8 @@ def main():
     game.print_matrix()
     print(game.get_player('PlayerA').get_captured())
     print(game.get_marble_count())
+    print(game.player_marble_count('PlayerB', game.get_matrix()))
+    print(game.player_marble_count('PlayerB', game.get_last_matrix()))
 
 
 
