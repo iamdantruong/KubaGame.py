@@ -237,21 +237,8 @@ class KubaGame:
         if new_matrix==old_matrix:
             return False
 
-        if self.player_marble_count(playername, old_matrix) != self.player_marble_count(playername, new_matrix):
-            return False
         else:
             return True
-
-    def player_marble_count(self, playerName, matrix):
-        if matrix is None:
-            return 8
-        color = self.get_player(playerName).get_color()
-        count = 0
-        for num1 in range (0,7):
-            for num2 in range (0,7):
-                if matrix[num1][num2] == color:
-                    count+=1
-        return count
 
     def check_player_turn(self, playername):
         """Returns True if it is that player's turn and False otherwise."""
